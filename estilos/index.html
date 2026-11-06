@@ -1,0 +1,723 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre Mim | A Minha Jornada</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #0b1020;
+    --panel: #141d33;
+    --accent: #a78bfa;
+    --pink: #f0abfc;
+    --blue: #7dd3fc;
+    --white: #f8fafc;
+    --muted: #a5b4cc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    overflow: hidden;
+}
+
+.presentation {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    padding: 8vh 11vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(50px);
+    transition: all .6s ease;
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.slide-number {
+    position: absolute;
+    top: 35px;
+    right: 55px;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 3px;
+}
+
+.eyebrow {
+    color: var(--pink);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+h1, h2, h3 {
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+h1 {
+    font-size: clamp(55px, 8vw, 105px);
+    line-height: 1;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: clamp(38px, 5vw, 65px);
+    margin-bottom: 25px;
+    line-height: 1.1;
+}
+
+h3 {
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.gradient {
+    background: linear-gradient(100deg, var(--accent), var(--pink), var(--blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: clamp(16px, 2vw, 21px);
+    max-width: 700px;
+    line-height: 1.8;
+}
+
+.line {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--pink));
+    border-radius: 10px;
+    margin: 25px 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 25px;
+    max-width: 1000px;
+}
+
+.card {
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.09);
+    padding: 25px;
+    border-radius: 18px;
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    background: rgba(167,139,250,.08);
+}
+
+.card p {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.icon {
+    font-size: 30px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.tag {
+    padding: 11px 18px;
+    background: rgba(167,139,250,.12);
+    border: 1px solid rgba(167,139,250,.3);
+    color: #ddd6fe;
+    border-radius: 30px;
+    font-size: 14px;
+}
+
+.highlight {
+    color: var(--pink);
+    font-weight: 700;
+}
+
+.project {
+    background: var(--panel);
+    padding: 25px;
+    border-radius: 18px;
+    border-left: 4px solid var(--accent);
+}
+
+.project p {
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.project-label {
+    color: var(--blue);
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.timeline {
+    border-left: 2px solid rgba(167,139,250,.5);
+    padding-left: 28px;
+    margin-top: 25px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.timeline-item::before {
+    content: "";
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--pink);
+    position: absolute;
+    left: -34px;
+    top: 5px;
+}
+
+.timeline-item p {
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 5px;
+}
+
+.quote {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.35;
+    max-width: 850px;
+}
+
+.quote span {
+    color: var(--pink);
+}
+
+.footer {
+    position: absolute;
+    bottom: 35px;
+    left: 11vw;
+    color: #64748b;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.controls {
+    position: absolute;
+    bottom: 25px;
+    right: 55px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 10;
+}
+
+.controls button {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    color: white;
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: .3s;
+}
+
+.controls button:hover {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+.progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--pink));
+    width: 0;
+    transition: .4s;
+    z-index: 20;
+}
+
+.counter {
+    color: var(--muted);
+    font-size: 13px;
+    min-width: 45px;
+    text-align: center;
+}
+
+.glow {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: rgba(139,92,246,.12);
+    filter: blur(100px);
+    right: -100px;
+    top: -100px;
+    pointer-events: none;
+}
+
+@media(max-width: 700px) {
+    .slide {
+        padding: 70px 25px 90px;
+        overflow-y: auto;
+        justify-content: center;
+    }
+
+    h1 { font-size: 54px; }
+    h2 { font-size: 37px; }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .card, .project {
+        padding: 18px;
+    }
+
+    .slide-number {
+        top: 20px;
+        right: 25px;
+    }
+
+    .footer {
+        left: 25px;
+        bottom: 25px;
+        font-size: 9px;
+    }
+
+    .controls {
+        right: 20px;
+        bottom: 17px;
+        gap: 8px;
+    }
+
+    .controls button {
+        width: 37px;
+        height: 37px;
+    }
+
+    .tags {
+        gap: 8px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="presentation">
+<div class="progress" id="progress"></div>
+<div class="glow"></div>
+
+<!-- SLIDE 1 -->
+<section class="slide active">
+    <span class="slide-number">01 / 09</span>
+    <p class="eyebrow">A minha apresentação pessoal</p>
+    <h1>Olá, sou<br><span class="gradient">Camila.</span></h1>
+    <div class="line"></div>
+    <p class="subtitle">
+        Uma pessoa curiosa, determinada e em constante aprendizagem.
+        Esta é a minha jornada pelo mundo da tecnologia,
+        dos desafios e dos projetos que vou construindo.
+    </p>
+    <div class="tags">
+        <span class="tag">💻 Tecnologia</span>
+        <span class="tag">🚀 Aprendizagem</span>
+        <span class="tag">✨ Criatividade</span>
+    </div>
+    <div class="footer">A MINHA JORNADA · 2026</div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide">
+    <span class="slide-number">02 / 09</span>
+    <p class="eyebrow">01 — Quem sou eu</p>
+    <h2>Mais do que aprender,<br><span class="gradient">quero evoluir.</span></h2>
+    <p class="subtitle">
+        Sou uma pessoa que gosta de perceber como as coisas funcionam
+        e de transformar ideias em projetos reais.
+        Estou a construir o meu percurso na área da informática,
+        descobrindo novas ferramentas e desenvolvendo competências.
+    </p>
+    <div class="grid">
+        <div class="card">
+            <span class="icon">🎯</span>
+            <h3>Determinação</h3>
+            <p>Quando quero aprender alguma coisa, procuro perceber cada detalhe até conseguir.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🔍</span>
+            <h3>Curiosidade</h3>
+            <p>Gosto de explorar novas possibilidades e descobrir como funcionam as tecnologias.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🧩</span>
+            <h3>Resolução de problemas</h3>
+            <p>Não tenho medo de experimentar, errar, corrigir e voltar a tentar.</p>
+        </div>
+        <div class="card">
+            <span class="icon">💡</span>
+            <h3>Criatividade</h3>
+            <p>Gosto de ter ideias próprias e dar-lhes forma através de projetos.</p>
+        </div>
+    </div>
+    <div class="footer">QUEM SOU EU</div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide">
+    <span class="slide-number">03 / 09</span>
+    <p class="eyebrow">02 — O meu percurso</p>
+    <h2>A tecnologia<br><span class="gradient">é o meu desafio.</span></h2>
+    <p class="subtitle">
+        Estou a desenvolver os meus conhecimentos na área da informática.
+        Comecei praticamente do zero e tenho aprendido através de aulas,
+        exercícios e projetos práticos.
+    </p>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <h3>Primeiros passos</h3>
+            <p>Contacto com ferramentas informáticas, programação e desenvolvimento web.</p>
+        </div>
+        <div class="timeline-item">
+            <h3>Desenvolvimento web</h3>
+            <p>Aprendizagem de HTML, CSS e JavaScript para criar páginas e funcionalidades.</p>
+        </div>
+        <div class="timeline-item">
+            <h3>Bases de dados</h3>
+            <p>Exploração de SQL, PostgreSQL, tabelas, relações e organização de informação.</p>
+        </div>
+        <div class="timeline-item">
+            <h3>Novos desafios</h3>
+            <p>Utilização de Git, GitHub, VS Code e ferramentas para desenvolver projetos.</p>
+        </div>
+    </div>
+    <div class="footer">O MEU PERCURSO</div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide">
+    <span class="slide-number">04 / 09</span>
+    <p class="eyebrow">03 — Competências</p>
+    <h2>O que estou<br><span class="gradient">a aprender?</span></h2>
+    <p class="subtitle">
+        Estas são algumas das tecnologias e ferramentas
+        com que tenho trabalhado durante a minha formação.
+    </p>
+
+    <div class="grid">
+        <div class="card">
+            <span class="icon">🌐</span>
+            <h3>HTML</h3>
+            <p>Estrutura e organização de páginas web.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🎨</span>
+            <h3>CSS</h3>
+            <p>Design, cores, layouts, animações e apresentação visual.</p>
+        </div>
+        <div class="card">
+            <span class="icon">⚡</span>
+            <h3>JavaScript</h3>
+            <p>Interatividade e funcionalidades nas páginas web.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🗄️</span>
+            <h3>SQL e bases de dados</h3>
+            <p>Criação, organização e consulta de informação.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🔧</span>
+            <h3>Git e GitHub</h3>
+            <p>Controlo de versões e partilha de projetos.</p>
+        </div>
+        <div class="card">
+            <span class="icon">💻</span>
+            <h3>VS Code e PostgreSQL</h3>
+            <p>Ferramentas utilizadas no desenvolvimento e na aprendizagem.</p>
+        </div>
+    </div>
+    <div class="footer">COMPETÊNCIAS EM DESENVOLVIMENTO</div>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide">
+    <span class="slide-number">05 / 09</span>
+    <p class="eyebrow">04 — Os meus projetos</p>
+    <h2>Ideias que ganham<br><span class="gradient">vida.</span></h2>
+    <p class="subtitle">
+        Gosto de aprender através da prática.
+        Por isso, tenho desenvolvido projetos próprios
+        para aplicar aquilo que vou aprendendo.
+    </p>
+
+    <div class="grid">
+        <div class="project">
+            <p class="project-label">PROJETO 01 · ORGANIZAÇÃO</p>
+            <h3>📅 MyDay</h3>
+            <p>
+                Um projeto pessoal pensado para organizar o dia a dia,
+                acompanhar objetivos, utilizar um calendário e registar reflexões.
+                Uma forma de juntar organização e desenvolvimento web.
+            </p>
+        </div>
+        <div class="project">
+            <p class="project-label">PROJETO 02 · ENTRETENIMENTO</p>
+            <h3>🎮 Duo Arena</h3>
+            <p>
+                Uma plataforma de jogos competitivos para duas pessoas,
+                com pontuações, vencedores e diferentes desafios.
+                Um projeto que combina design, programação e interatividade.
+            </p>
+        </div>
+    </div>
+
+    <div class="footer">APRENDER FAZENDO</div>
+</section>
+
+<!-- SLIDE 6 -->
+<section class="slide">
+    <span class="slide-number">06 / 09</span>
+    <p class="eyebrow">05 — A minha forma de aprender</p>
+    <h2>Passo a passo.<br><span class="gradient">Sem desistir.</span></h2>
+
+    <p class="subtitle">
+        Não acredito que seja necessário saber tudo desde o início.
+        Prefiro compreender bem cada etapa antes de avançar para a seguinte.
+    </p>
+
+    <div class="grid">
+        <div class="card">
+            <span class="icon">📖</span>
+            <h3>Explicações simples</h3>
+            <p>Perceber primeiro o que é uma ferramenta e para que serve.</p>
+        </div>
+        <div class="card">
+            <span class="icon">👩‍💻</span>
+            <h3>Exemplos práticos</h3>
+            <p>Aprender experimentando e aplicando os conhecimentos.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🔄</span>
+            <h3>Errar e corrigir</h3>
+            <p>Testar soluções, identificar erros e encontrar formas de os resolver.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🏁</span>
+            <h3>Ver resultados</h3>
+            <p>Transformar aquilo que aprendo em algo que realmente funciona.</p>
+        </div>
+    </div>
+    <div class="footer">A MINHA MANEIRA DE APRENDER</div>
+</section>
+
+<!-- SLIDE 7 -->
+<section class="slide">
+    <span class="slide-number">07 / 09</span>
+    <p class="eyebrow">06 — Desafios</p>
+    <h2>Nem tudo é fácil.<br><span class="gradient">E ainda bem.</span></h2>
+
+    <p class="subtitle">
+        Aprender programação, bases de dados e novas ferramentas
+        pode ser complicado, especialmente quando começamos do zero.
+    </p>
+
+    <div class="grid">
+        <div class="card">
+            <h3>01. Sair da zona de conforto</h3>
+            <p>Explorar assuntos novos, mesmo quando parecem difíceis.</p>
+        </div>
+        <div class="card">
+            <h3>02. Ganhar autonomia</h3>
+            <p>Conseguir desenvolver projetos com cada vez menos ajuda.</p>
+        </div>
+        <div class="card">
+            <h3>03. Resolver problemas</h3>
+            <p>Aprender a interpretar erros e perceber onde está o problema.</p>
+        </div>
+        <div class="card">
+            <h3>04. Continuar a evoluir</h3>
+            <p>Não ficar apenas pelo que já sei e procurar melhorar constantemente.</p>
+        </div>
+    </div>
+    <div class="footer">CRESCER TAMBÉM É ENFRENTAR DESAFIOS</div>
+</section>
+
+<!-- SLIDE 8 -->
+<section class="slide">
+    <span class="slide-number">08 / 09</span>
+    <p class="eyebrow">07 — O futuro</p>
+    <h2>Ainda tenho muito<br><span class="gradient">para construir.</span></h2>
+
+    <p class="subtitle">
+        Quero continuar a desenvolver as minhas capacidades,
+        ganhar experiência e conseguir criar projetos cada vez mais completos.
+    </p>
+
+    <div class="grid">
+        <div class="card">
+            <span class="icon">💻</span>
+            <h3>Programação</h3>
+            <p>Aprofundar os conhecimentos de desenvolvimento web.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🗃️</span>
+            <h3>Bases de dados</h3>
+            <p>Compreender melhor a gestão e utilização de informação.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🚀</span>
+            <h3>Projetos próprios</h3>
+            <p>Criar aplicações úteis, funcionais e com identidade própria.</p>
+        </div>
+        <div class="card">
+            <span class="icon">🌟</span>
+            <h3>Futuro profissional</h3>
+            <p>Transformar a aprendizagem em oportunidades e experiência.</p>
+        </div>
+    </div>
+    <div class="footer">O QUE AINDA ESTÁ POR VIR</div>
+</section>
+
+<!-- SLIDE 9 -->
+<section class="slide">
+    <span class="slide-number">09 / 09</span>
+    <p class="eyebrow">08 — Para terminar</p>
+
+    <p class="quote">
+        "Não preciso de saber tudo hoje.
+        Preciso apenas de continuar a
+        <span>aprender, experimentar e evoluir.</span>"
+    </p>
+
+    <div class="line"></div>
+
+    <h2 class="gradient">O melhor ainda está por vir.</h2>
+
+    <p class="subtitle">
+        Esta é apenas uma parte da minha história.
+        Continuo a aprender, a descobrir e a construir o meu caminho.
+    </p>
+
+    <div class="tags">
+        <span class="tag">Obrigada pela atenção!</span>
+        <span class="tag">Camila · 2026</span>
+    </div>
+
+    <div class="footer">FIM DA APRESENTAÇÃO</div>
+</section>
+
+<div class="controls">
+    <button onclick="previousSlide()" aria-label="Slide anterior">←</button>
+    <span class="counter" id="counter">01 / 09</span>
+    <button onclick="nextSlide()" aria-label="Próximo slide">→</button>
+</div>
+
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const counter = document.getElementById('counter');
+const progress = document.getElementById('progress');
+
+let currentSlide = 0;
+
+function showSlide(index) {
+    slides[currentSlide].classList.remove('active');
+
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add('active');
+
+    counter.textContent =
+        String(currentSlide + 1).padStart(2, '0') +
+        ' / ' +
+        String(slides.length).padStart(2, '0');
+
+    progress.style.width =
+        ((currentSlide + 1) / slides.length * 100) + '%';
+}
+
+function nextSlide() {
+    showSlide(currentSlide + 1);
+}
+
+function previousSlide() {
+    showSlide(currentSlide - 1);
+}
+
+// Navegação pelo teclado
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowRight' || event.key === ' ') {
+        nextSlide();
+    }
+
+    if (event.key === 'ArrowLeft') {
+        previousSlide();
+    }
+});
+
+// Navegação com o rato
+let touchStart = 0;
+
+document.addEventListener('touchstart', function(event) {
+    touchStart = event.changedTouches[0].screenX;
+});
+
+document.addEventListener('touchend', function(event) {
+    const touchEnd = event.changedTouches[0].screenX;
+    const difference = touchStart - touchEnd;
+
+    if (difference > 60) nextSlide();
+    if (difference < -60) previousSlide();
+});
+
+showSlide(0);
+</script>
+
+</body>
+</html>
